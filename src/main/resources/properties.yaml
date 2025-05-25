@@ -1,0 +1,13 @@
+gg:
+  jte:
+    development-mode: true
+spring:
+  application:
+    name: telegram-webapp-auth
+
+telegram:
+  webapp:
+    bot:
+      token: ${TELEGRAM_WEBAPP_BOT_TOKEN}
+    auth:
+      validity-amount: 300

@@ -10,6 +10,4 @@ public class Constant {
     public static final String AUTH_DATE_KEY = "auth_date";
 
     public static final String SECRET_KEY_PREFIX = "WebAppData";
-    public static final String HMAC_SHA256 = "HmacSHA256";
-    public static final String SHA256 = "SHA-256";
 }

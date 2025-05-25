@@ -19,17 +19,19 @@ repositories {
 }
 
 var lombokVersion = "1.18.38"
+var jteVersion = "3.1.16"
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'gg.jte:jte-spring-boot-starter-3:3.1.16'
+    implementation "gg.jte:jte-spring-boot-starter-3:${jteVersion}"
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'org.apache.commons:commons-lang3:3.17.0'
+    implementation 'commons-codec:commons-codec:1.18.0'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
