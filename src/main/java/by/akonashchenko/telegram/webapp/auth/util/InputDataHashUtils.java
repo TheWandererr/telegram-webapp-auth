@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static by.akonashchenko.telegram.webapp.auth.util.Constant.HASH_KEY;
+import static by.akonashchenko.telegram.webapp.auth.util.Constant.InitData.HASH_KEY;
 
 @UtilityClass
 public class InputDataHashUtils {
