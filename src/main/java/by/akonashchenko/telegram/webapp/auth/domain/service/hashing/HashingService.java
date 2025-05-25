@@ -1,4 +1,4 @@
-package by.akonashchenko.telegram.webapp.auth.domain.service;
+package by.akonashchenko.telegram.webapp.auth.domain.service.hashing;
 
 public interface HashingService {
 

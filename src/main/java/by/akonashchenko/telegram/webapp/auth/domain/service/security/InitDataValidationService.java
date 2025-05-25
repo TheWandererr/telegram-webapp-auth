@@ -1,15 +1,17 @@
-package by.akonashchenko.telegram.webapp.auth.domain.service;
+package by.akonashchenko.telegram.webapp.auth.domain.service.security;
 
 import by.akonashchenko.telegram.webapp.auth.config.model.AuthConfig;
 import by.akonashchenko.telegram.webapp.auth.config.model.BotConfig;
 import by.akonashchenko.telegram.webapp.auth.domain.model.InitData;
 import by.akonashchenko.telegram.webapp.auth.domain.model.exception.ValidationException;
+import by.akonashchenko.telegram.webapp.auth.domain.service.hashing.HashingService;
+import by.akonashchenko.telegram.webapp.auth.domain.service.hashing.HmacHashingService;
 import by.akonashchenko.telegram.webapp.auth.util.InputDataHashUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 
-import static by.akonashchenko.telegram.webapp.auth.util.Constant.SECRET_KEY_PREFIX;
+import static by.akonashchenko.telegram.webapp.auth.util.Constant.InitData.SECRET_KEY_PREFIX;
 import static org.apache.commons.codec.digest.HmacAlgorithms.HMAC_SHA_256;
 
 @Service
@@ -36,6 +38,7 @@ public class InitDataValidationService {
         InitData initData = parser.parse(input);
         validateHash(initData);
         validateAuthDate(initData.getAuthDate());
+        validateUser(initData.getUser());
         return initData;
     }
 
@@ -52,6 +55,12 @@ public class InitDataValidationService {
         var diff = Instant.now().getEpochSecond() - authDate;
         if (diff < 0 || diff >= securityConfiguration.getValidityAmount()) {
             throw new ValidationException("authDate is corrupted or outdated");
+        }
+    }
+
+    private void validateUser(InitData.User user) {
+        if (user == null) {
+            throw new ValidationException("User info is missed by provider");
         }
     }
 }

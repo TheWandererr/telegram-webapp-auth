@@ -3,6 +3,7 @@ package by.akonashchenko.telegram.webapp.auth.domain.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -18,13 +19,25 @@ public class InitData {
 
     @Data
     public static class User {
-        private Integer id;
+        private Long id;
         private String username;
         @JsonProperty("first_name")
-        private String firstname;
+        private String firstName;
         @JsonProperty("last_name")
-        private String lastname;
+        private String lastName;
         @JsonProperty("is_premium")
         private boolean premium;
+
+        public boolean hasId() {
+            return id != null;
+        }
+
+        public boolean hasUsername() {
+            return StringUtils.isNotBlank(username);
+        }
+    }
+
+    public boolean hasUser() {
+        return user != null;
     }
 }

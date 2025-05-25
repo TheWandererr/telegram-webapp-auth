@@ -4,6 +4,11 @@ gg:
 spring:
   application:
     name: telegram-webapp-auth
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      format-sql: true
 
 telegram:
   webapp:
@@ -11,3 +16,9 @@ telegram:
       token: ${TELEGRAM_WEBAPP_BOT_TOKEN}
     auth:
       validity-amount: 300
+
+logging:
+  level:
+    org:
+      hibernate:
+        stat: DEBUG

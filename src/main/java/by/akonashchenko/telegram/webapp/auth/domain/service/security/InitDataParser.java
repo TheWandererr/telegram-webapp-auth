@@ -1,4 +1,4 @@
-package by.akonashchenko.telegram.webapp.auth.domain.service;
+package by.akonashchenko.telegram.webapp.auth.domain.service.security;
 
 import by.akonashchenko.telegram.webapp.auth.domain.model.InitData;
 import by.akonashchenko.telegram.webapp.auth.util.QueryUtils;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-import static by.akonashchenko.telegram.webapp.auth.util.Constant.*;
+import static by.akonashchenko.telegram.webapp.auth.util.Constant.InitData.*;
 import static org.apache.commons.lang3.math.NumberUtils.toInt;
 
 @Component
