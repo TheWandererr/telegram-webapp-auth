@@ -1,0 +1,34 @@
+gg:
+  jte:
+    usePrecompiledTemplates: true
+spring:
+  application:
+    name: telegram-webapp-auth
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 35
+        enable_lazy_load_no_trans: false
+        jdbc:
+          time_zone: UTC
+    logging:
+      level:
+        root: DEBUG
+
+telegram:
+  webapp:
+    bot:
+      token: ${TELEGRAM_WEBAPP_BOT_TOKEN}
+    auth:
+      validity-amount-seconds: 300
+
+logging:
+  level:
+    org:
+      hibernate:
+        stat: DEBUG

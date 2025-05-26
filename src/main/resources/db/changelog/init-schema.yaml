@@ -1,0 +1,160 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user_roles
+      author: a.konashchenko
+      preconditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: user_roles
+      changes:
+        - createTable:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(25)
+                  constraints:
+                    unique: true
+                    nullable: false
+  - changeSet:
+      id: create-authorities
+      author: a.konashchenko
+      preconditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: authorities
+      changes:
+        - createTable:
+            tableName: authorities
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: role_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: value
+                  type: VARCHAR(45)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: authorities
+            baseColumnNames: role_id
+            referencedTableName: user_roles
+            referencedColumnNames: id
+            onDelete: CASCADE
+            constraintName: fk_authority_role
+  - changeSet:
+      id: create-users
+      author: a.konashchenko
+      preconditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: users
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: external_id
+                  type: BIGINT
+                  constraints:
+                    unique: true
+                    nullable: true
+              - column:
+                  name: username
+                  type: VARCHAR(255)
+                  constraints:
+                    unique: true
+                    nullable: true
+              - column:
+                  name: first_name
+                  type: VARCHAR(255)
+              - column:
+                  name: last_name
+                  type: VARCHAR(255)
+              - column:
+                  name: premium
+                  type: BOOLEAN
+              - column:
+                  name: banned
+                  type: BOOLEAN
+              - column:
+                  name: active
+                  type: BOOLEAN
+              - column:
+                  name: role_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: users
+            baseColumnNames: role_id
+            referencedTableName: user_roles
+            referencedColumnNames: id
+            onDelete: CASCADE
+            constraintName: fk_user_role
+  - changeSet:
+      id: insert-test-data
+      author: a.konashchenko
+      changes:
+        - insert:
+            tableName: user_roles
+            columns:
+              - column: { name: id,   value: "b20f0fa2-d7c9-4f4b-8235-dc5f234d2121" }
+              - column: { name: name, value: "REGULAR" }
+        - insert:
+            tableName: user_roles
+            columns:
+              - column: { name: id,   value: "45a7ec5c-faaa-4561-8e14-bf7a0b02c789" }
+              - column: { name: name, value: "PREMIUM" }
+
+        - insert:
+            tableName: authorities
+            columns:
+              - column: { name: id,       value: "1a2b3c4d-0000-0000-0000-000000000001" }
+              - column: { name: role_id,  value: "b20f0fa2-d7c9-4f4b-8235-dc5f234d2121" }
+              - column: { name: value,    value: "READ" }
+        - insert:
+            tableName: authorities
+            columns:
+              - column: { name: id,       value: "1a2b3c4d-0000-0000-0000-000000000002" }
+              - column: { name: role_id,  value: "b20f0fa2-d7c9-4f4b-8235-dc5f234d2121" }
+              - column: { name: value,    value: "WRITE" }
+        - insert:
+            tableName: authorities
+            columns:
+              - column: { name: id,       value: "1a2b3c4d-0000-0000-0000-000000000003" }
+              - column: { name: role_id,  value: "45a7ec5c-faaa-4561-8e14-bf7a0b02c789" }
+              - column: { name: value,    value: "READ" }
+        - insert:
+            tableName: authorities
+            columns:
+              - column: { name: id,       value: "1a2b3c4d-0000-0000-0000-000000000004" }
+              - column: { name: role_id,  value: "45a7ec5c-faaa-4561-8e14-bf7a0b02c789" }
+              - column: { name: value,    value: "WRITE" }
+        - insert:
+            tableName: authorities
+            columns:
+              - column: { name: id,       value: "1a2b3c4d-0000-0000-0000-000000000005" }
+              - column: { name: role_id,  value: "45a7ec5c-faaa-4561-8e14-bf7a0b02c789" }
+              - column: { name: value,    value: "GIF_SMILES" }
