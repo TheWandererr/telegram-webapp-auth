@@ -27,13 +27,14 @@ public class InitDataOperationService {
                 .firstName(initDataUser.getFirstName())
                 .lastName(initDataUser.getLastName())
                 .premium(initDataUser.isPremium())
+                .username(initDataUser.getUsername())
                 .build();
         return userRepository.save(newUser);
     }
 
     public UserRoleJpa resolveUserRole(InitData.User initDataUser) {
         return initDataUser.isPremium()
-                ? userRoleRepository.findByName(Constant.Jpa.PREMIUM_ROLE_NAME)
-                : userRoleRepository.findByName(Constant.Jpa.REGULAR_ROLE_NAME);
+                ? userRoleRepository.findByName(Constant.Roles.PREMIUM)
+                : userRoleRepository.findByName(Constant.Roles.REGULAR);
     }
 }

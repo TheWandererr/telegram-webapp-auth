@@ -21,10 +21,10 @@ public class AuthorityJpa {
     @Id
     @GeneratedValue
     private UUID id;
-    @ManyToOne(fetch = LAZY, cascade = ALL)
+    @ManyToOne(fetch = LAZY, cascade = ALL, optional = false)
     @JoinColumn(name = "role_id")
     private UserRoleJpa role;
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String value;
 
     @Override

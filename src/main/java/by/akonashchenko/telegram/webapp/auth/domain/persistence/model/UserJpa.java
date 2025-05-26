@@ -23,14 +23,14 @@ public class UserJpa {
     private UUID id;
     @Column(unique = true)
     private Long externalId;
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String username;
     private String firstName;
     private String lastName;
     private boolean premium;
     private boolean banned;
     private boolean active;
-    @ManyToOne(cascade = ALL, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = ALL, optional = false)
     @JoinColumn(name = "role_id", nullable = false)
     private UserRoleJpa role;
 

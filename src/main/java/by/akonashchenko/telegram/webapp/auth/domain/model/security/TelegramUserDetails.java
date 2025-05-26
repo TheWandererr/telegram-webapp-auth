@@ -1,38 +1,30 @@
 package by.akonashchenko.telegram.webapp.auth.domain.model.security;
 
+import by.akonashchenko.telegram.webapp.auth.config.model.AuthConfig;
 import by.akonashchenko.telegram.webapp.auth.domain.persistence.model.AuthorityJpa;
 import by.akonashchenko.telegram.webapp.auth.domain.persistence.model.UserJpa;
-import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
-@Getter
-public class TelegramUserDetails implements UserDetails {
-
-    private final String username;
-    private final boolean active;
-    private final boolean banned;
-    private final long authDate;
-    private final List<SimpleGrantedAuthority> authenticationAuthorities;
-
-    private TelegramUserDetails(
-            String username,
-            boolean active,
-            boolean banned,
-            long authDate,
-            List<SimpleGrantedAuthority> authenticationAuthorities
-    ) {
-        this.username = username;
-        this.active = active;
-        this.banned = banned;
-        this.authDate = authDate;
-        this.authenticationAuthorities = authenticationAuthorities;
-    }
+public record TelegramUserDetails(
+        UUID id,
+        Long externalId,
+        String username,
+        String firstName,
+        String lastName,
+        boolean premium,
+        boolean active,
+        boolean banned,
+        Instant expiredAt,
+        List<SimpleGrantedAuthority> authenticationAuthorities
+) implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -51,7 +43,8 @@ public class TelegramUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return active;
+        return Instant.now()
+                .isBefore(expiredAt);
     }
 
     @Override
@@ -69,15 +62,25 @@ public class TelegramUserDetails implements UserDetails {
         return active && !isAccountNonLocked();
     }
 
-    public static TelegramUserDetails of(UserJpa userJpa, long authDate) {
+    public static TelegramUserDetails init(
+            UserJpa userJpa,
+            long authDate,
+            AuthConfig authConfig
+    ) {
         return new TelegramUserDetails(
+                userJpa.getId(),
+                userJpa.getExternalId(),
                 userJpa.getUsername(),
+                userJpa.getFirstName(),
+                userJpa.getLastName(),
+                userJpa.isPremium(),
                 userJpa.isActive(),
                 userJpa.isBanned(),
-                authDate,
+                Instant.ofEpochSecond(authDate + authConfig.getValidityAmountSeconds()),
                 userJpa.getRole().getAuthorities().stream()
                         .map(AuthorityJpa::getValue)
                         .map(SimpleGrantedAuthority::new)
-                        .toList());
+                        .toList()
+        );
     }
 }

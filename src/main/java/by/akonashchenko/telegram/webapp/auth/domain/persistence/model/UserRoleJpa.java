@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.HashSet;
@@ -16,7 +15,7 @@ import static jakarta.persistence.CascadeType.ALL;
 import static java.util.Objects.isNull;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "user_roles")
 @Getter
 @Setter
 public class UserRoleJpa {
@@ -24,10 +23,9 @@ public class UserRoleJpa {
     @Id
     @GeneratedValue
     private UUID id;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
-    @OneToMany(cascade = ALL, orphanRemoval = true, mappedBy = "role")
-    @BatchSize(size = 10)
+    @OneToMany(cascade = ALL, orphanRemoval = true, mappedBy = "role", fetch = FetchType.EAGER)
     private Set<AuthorityJpa> authorities;
 
     public Set<AuthorityJpa> getAuthorities() {

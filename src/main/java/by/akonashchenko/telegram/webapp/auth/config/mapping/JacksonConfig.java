@@ -1,4 +1,4 @@
-package by.akonashchenko.telegram.webapp.auth.config;
+package by.akonashchenko.telegram.webapp.auth.config.mapping;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
