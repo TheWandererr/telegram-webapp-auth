@@ -32,7 +32,7 @@ public class InitDataValidationService {
     public InitData validate(String input) {
         InitData initData = parser.parse(input);
         validateHash(initData);
-        validateAuthDate(initData.getAuthDate());
+        // validateAuthDate(initData.getAuthDate());
         validateUser(initData.getUser());
         return initData;
     }

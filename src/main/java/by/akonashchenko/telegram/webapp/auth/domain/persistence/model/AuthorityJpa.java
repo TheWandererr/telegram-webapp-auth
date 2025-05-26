@@ -22,7 +22,7 @@ public class AuthorityJpa {
     @GeneratedValue
     private UUID id;
     @ManyToOne(fetch = LAZY, cascade = ALL, optional = false)
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "role_id", nullable = false)
     private UserRoleJpa role;
     @Column(nullable = false)
     private String value;

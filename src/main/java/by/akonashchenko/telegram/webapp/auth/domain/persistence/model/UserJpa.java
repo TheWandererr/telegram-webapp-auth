@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "users")
@@ -30,7 +31,7 @@ public class UserJpa {
     private boolean premium;
     private boolean banned;
     private boolean active;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = ALL, optional = false)
+    @ManyToOne(fetch = LAZY, cascade = ALL, optional = false)
     @JoinColumn(name = "role_id", nullable = false)
     private UserRoleJpa role;
 

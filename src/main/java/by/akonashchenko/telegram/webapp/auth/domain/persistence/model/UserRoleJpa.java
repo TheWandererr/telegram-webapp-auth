@@ -25,7 +25,7 @@ public class UserRoleJpa {
     private UUID id;
     @Column(unique = true, nullable = false)
     private String name;
-    @OneToMany(cascade = ALL, orphanRemoval = true, mappedBy = "role", fetch = FetchType.EAGER)
+    @OneToMany(cascade = ALL, orphanRemoval = true, mappedBy = "role")
     private Set<AuthorityJpa> authorities;
 
     public Set<AuthorityJpa> getAuthorities() {
